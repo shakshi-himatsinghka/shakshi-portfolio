@@ -1,0 +1,70 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 900 1600" preserveAspectRatio="xMidYMid slice">
+  <defs>
+    <linearGradient id="base" x1="0" y1="0" x2=".6" y2="1">
+      <stop offset="0" stop-color="#93356a"/>
+      <stop offset=".45" stop-color="#7a2357"/>
+      <stop offset="1" stop-color="#5a1240"/>
+    </linearGradient>
+    <radialGradient id="glow" cx=".7" cy=".25" r=".6">
+      <stop offset="0" stop-color="#c25a92" stop-opacity=".55"/>
+      <stop offset="1" stop-color="#c25a92" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="shade" cx=".2" cy=".75" r=".5">
+      <stop offset="0" stop-color="#3e0a2b" stop-opacity=".55"/>
+      <stop offset="1" stop-color="#3e0a2b" stop-opacity="0"/>
+    </radialGradient>
+
+    <filter id="soft" x="-20%" y="-20%" width="140%" height="140%"><feGaussianBlur stdDeviation="7"/></filter>
+    <filter id="cloth" x="0" y="0" width="100%" height="100%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.003 0.75" numOctaves="2" seed="4"/>
+      <feColorMatrix values="0 0 0 0 1  0 0 0 0 .85  0 0 0 0 .93  0 0 0 .13 0"/>
+    </filter>
+    <filter id="grain" x="0" y="0" width="100%" height="100%">
+      <feTurbulence type="fractalNoise" baseFrequency=".9" numOctaves="2" seed="9"/>
+      <feColorMatrix values="0 0 0 0 .2  0 0 0 0 .02  0 0 0 0 .12  0 0 0 .3 0"/>
+    </filter>
+
+    <!-- one petal; soft fill version and outline version -->
+    <path id="petal" d="M0 0 C-34 -60 -26 -150 0 -200 C26 -150 34 -60 0 0Z"/>
+    <path id="round" d="M0 0 C-60 -30 -70 -110 0 -130 C70 -110 60 -30 0 0Z"/>
+
+    <g id="blossom">
+      <use xlink:href="#round"/>
+      <use xlink:href="#round" transform="rotate(72)"/>
+      <use xlink:href="#round" transform="rotate(144)"/>
+      <use xlink:href="#round" transform="rotate(216)"/>
+      <use xlink:href="#round" transform="rotate(288)"/>
+    </g>
+    <g id="lily">
+      <use xlink:href="#petal"/>
+      <use xlink:href="#petal" transform="rotate(60)"/>
+      <use xlink:href="#petal" transform="rotate(120)"/>
+      <use xlink:href="#petal" transform="rotate(180)"/>
+      <use xlink:href="#petal" transform="rotate(240)"/>
+      <use xlink:href="#petal" transform="rotate(300)"/>
+      <path d="M0 0 C8 -40 24 -66 46 -84 M0 0 C-4 -44 -2 -74 8 -102 M0 0 C-18 -34 -40 -52 -62 -62 M0 0 C22 -18 46 -24 72 -22"/>
+      <circle cx="46" cy="-84" r="4"/><circle cx="8" cy="-102" r="4"/><circle cx="-62" cy="-62" r="4"/><circle cx="72" cy="-22" r="4"/>
+    </g>
+  </defs>
+
+  <rect width="900" height="1600" fill="url(#base)"/>
+  <rect width="900" height="1600" fill="url(#glow)"/>
+
+  <!-- soft, out-of-focus blossoms -->
+  <g fill="#e08cb8" opacity=".28" filter="url(#soft)">
+    <use xlink:href="#blossom" transform="translate(130 220) scale(1.1) rotate(10)"/>
+    <use xlink:href="#blossom" transform="translate(720 520) scale(1.5) rotate(-20)"/>
+    <use xlink:href="#blossom" transform="translate(260 900) scale(1.3) rotate(30)"/>
+    <use xlink:href="#blossom" transform="translate(800 1250) scale(1.2) rotate(5)"/>
+    <use xlink:href="#blossom" transform="translate(90 1450) scale(1.4) rotate(-15)"/>
+  </g>
+  <g fill="#f3a9cf" opacity=".18" filter="url(#soft)">
+    <use xlink:href="#blossom" transform="translate(520 120) scale(.8) rotate(40)"/>
+    <use xlink:href="#blossom" transform="translate(560 1050) scale(.9) rotate(-35)"/>
+    <use xlink:href="#blossom" transform="translate(380 1500) scale(.7)"/>
+  </g>
+
+  <rect width="900" height="1600" fill="url(#shade)"/>
+  <rect width="900" height="1600" filter="url(#cloth)"/>
+  <rect width="900" height="1600" filter="url(#grain)"/>
+</svg>
