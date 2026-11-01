@@ -9,9 +9,13 @@
   --pink-soft: rgba(246, 195, 220, .75);
   --rule: rgba(251, 243, 234, .28);
 
-  --serif: "Instrument Serif", Georgia, serif;
-  --sans: "Instrument Sans", system-ui, sans-serif;
-  --hand: "Caveat", cursive;
+  /* titles: change these four to try a different title font */
+  --title: "Newsreader", Georgia, serif;
+  --title-weight: 500;
+  --title-track: -.012em;
+  --title-scale: .92;
+  --sans: "Karla", system-ui, sans-serif;
+  --hand: "Reenie Beanie", cursive;
   --pad: clamp(16px, 4vw, 56px);
 }
 
@@ -32,10 +36,24 @@ body {
 }
 
 a { color: inherit; }
-h1, h2, h3 { font-weight: 400; margin: 0; }
-h1, h2 { font-family: var(--serif); letter-spacing: -.01em; line-height: 1.02; }
+h1, h2, h3 { font-family: var(--title); font-weight: var(--title-weight); letter-spacing: var(--title-track); margin: 0; }
+h1, h2 { line-height: 1.02; }
 h1 em, h2 em { font-style: italic; color: var(--pink); }
 .hand { font-family: var(--hand); }
+
+/* ---------- the site's two pages, as folder tabs ---------- */
+.doors { display: flex; gap: 4px; padding: 12px var(--pad) 0; }
+.doors a {
+  padding: 8px 18px; border-radius: 10px 10px 0 0;
+  font-size: 15px; font-weight: 500; line-height: 1.2; text-decoration: none;
+  background: rgba(251, 243, 234, .9); color: var(--deep);
+}
+.doors a:hover { background: var(--pink); }
+.doors a[aria-current="page"] {
+  background: rgba(79, 15, 53, .55); color: var(--cream);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
 
 /* ---------- top bar ---------- */
 .top {
@@ -47,7 +65,7 @@ h1 em, h2 em { font-style: italic; color: var(--pink); }
   -webkit-backdrop-filter: blur(10px);
   border-bottom: 1px solid var(--rule);
 }
-.mark { font: 400 23px/1 var(--serif); text-decoration: none; white-space: nowrap; }
+.mark { font: var(--title-weight) calc(23px * var(--title-scale))/1 var(--title); letter-spacing: var(--title-track); text-decoration: none; white-space: nowrap; }
 .top nav { display: flex; align-items: center; gap: clamp(12px, 2.2vw, 28px); font-size: 15px; }
 .top nav a { text-decoration: none; }
 .top nav a:not(.pill):hover { color: var(--pink); }
@@ -71,7 +89,7 @@ h1 em, h2 em { font-style: italic; color: var(--pink); }
 .dot { width: 8px; height: 8px; border-radius: 50%; background: #9be37a; box-shadow: 0 0 0 3px rgba(155, 227, 122, .25); animation: pulse 2.4s ease-in-out infinite; }
 @keyframes pulse { 50% { box-shadow: 0 0 0 6px rgba(155, 227, 122, 0); } }
 
-.hero h1 { font-size: clamp(44px, 5.6vw, 82px); }
+.hero h1 { font-size: calc(clamp(44px, 5.6vw, 82px) * var(--title-scale)); }
 .lede { max-width: 32em; margin: 24px 0 0; color: rgba(251, 243, 234, .88); font-size: 18px; }
 .ctas { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 30px; }
 .btn {
@@ -131,8 +149,8 @@ figcaption b { display: block; color: var(--cream); font-weight: 600; font-size:
 }
 .stat { display: flex; align-items: center; gap: 14px; }
 .stat p, .proof > p { margin: 0; }
-.proof .big { flex: none; font: italic 400 52px/1 var(--serif); color: var(--pink); }
-.proof .hand { font-size: 25px; line-height: 1.15; color: var(--pink-soft); }
+.proof .big { flex: none; font: italic var(--title-weight) calc(52px * var(--title-scale))/1 var(--title); color: var(--pink); }
+.proof .hand { font-size: 32px; line-height: 1; color: var(--pink-soft); }
 
 /* ---------- more edits (light) ---------- */
 .more {
@@ -140,7 +158,7 @@ figcaption b { display: block; color: var(--cream); font-weight: 600; font-size:
   padding: clamp(64px, 8vw, 120px) var(--pad);
 }
 .more-head { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 8px 24px; }
-.more h2 { font-size: clamp(40px, 5.4vw, 72px); }
+.more h2 { font-size: calc(clamp(40px, 5.4vw, 72px) * var(--title-scale)); }
 .more h2 em { color: var(--berry); }
 .more-head p { margin: 0; color: var(--ink-soft); }
 .more-grid {
@@ -159,8 +177,8 @@ figcaption b { display: block; color: var(--cream); font-weight: 600; font-size:
   border-radius: 16px; padding: clamp(26px, 3vw, 38px);
   transform: rotate(-1deg);
 }
-.shoot-kicker { margin: 0; font-size: 26px; color: var(--pink); }
-.shoot h3 { font: 400 clamp(30px, 3vw, 40px)/1.05 var(--serif); margin-top: 4px; }
+.shoot-kicker { margin: 0; font-size: 34px; line-height: 1; color: var(--pink); }
+.shoot h3 { font: var(--title-weight) calc(clamp(30px, 3vw, 40px) * var(--title-scale))/1.05 var(--title); margin-top: 4px; }
 .shoot p:not(.shoot-kicker) { margin: 14px 0 22px; color: rgba(251, 243, 234, .85); }
 
 /* ---------- story ---------- */
@@ -181,8 +199,8 @@ figcaption b { display: block; color: var(--cream); font-weight: 600; font-size:
 }
 .paper::before { left: 8%; transform: rotate(-5deg); }
 .paper::after { right: 8%; transform: rotate(4deg); }
-.kicker { margin: 0; font-size: 24px; color: var(--berry); }
-.story h2 { font-size: clamp(38px, 5vw, 64px); margin-top: 4px; }
+.kicker { margin: 0; font-size: 31px; line-height: 1; color: var(--berry); }
+.story h2 { font-size: calc(clamp(38px, 5vw, 64px) * var(--title-scale)); margin-top: 4px; }
 .story h2 em { color: var(--berry); }
 .story-body { margin-top: 28px; columns: 2 300px; column-gap: 44px; }
 .story-body p { margin: 0 0 16px; break-inside: avoid; color: #3d2731; }
@@ -193,7 +211,7 @@ figcaption b { display: block; color: var(--cream); font-weight: 600; font-size:
 
 /* ---------- who it's for ---------- */
 .for, .how { padding: clamp(64px, 8vw, 120px) var(--pad); }
-.for h2, .how h2 { font-size: clamp(40px, 5.4vw, 72px); }
+.for h2, .how h2 { font-size: calc(clamp(40px, 5.4vw, 72px) * var(--title-scale)); }
 .cards {
   display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 18px;
   margin-top: clamp(32px, 4vw, 52px);
@@ -203,8 +221,8 @@ figcaption b { display: block; color: var(--cream); font-weight: 600; font-size:
   border: 1px solid var(--rule);
   border-radius: 14px; padding: 22px 20px 26px;
 }
-.tag { font: 700 22px/1 var(--hand); color: var(--pink); }
-.card h3 { font: 400 27px/1.1 var(--serif); margin-top: 14px; }
+.tag { font: 400 30px/1 var(--hand); color: var(--pink); }
+.card h3 { font: var(--title-weight) calc(27px * var(--title-scale))/1.1 var(--title); margin-top: 14px; }
 .card p { margin: 12px 0 0; font-size: 15.5px; color: rgba(251, 243, 234, .82); }
 .kinds { list-style: none; padding: 0; margin: 28px 0 0; display: flex; flex-wrap: wrap; gap: 8px; }
 .kinds li { font-size: 14px; padding: 6px 14px; border-radius: 99px; border: 1px solid var(--rule); color: var(--pink); }
@@ -215,7 +233,7 @@ figcaption b { display: block; color: var(--cream); font-weight: 600; font-size:
   padding: clamp(56px, 7vw, 96px) var(--pad);
   background: var(--cream); color: var(--ink);
 }
-.tools h2 { font-size: clamp(36px, 4.4vw, 56px); }
+.tools h2 { font-size: calc(clamp(36px, 4.4vw, 56px) * var(--title-scale)); }
 .tools h2 em { color: var(--berry); }
 .apps { list-style: none; padding: 0; margin: 0; display: flex; flex-wrap: wrap; gap: clamp(20px, 3vw, 40px); }
 .apps li { display: flex; flex-direction: column; align-items: center; gap: 10px; font-size: 15px; font-weight: 500; cursor: default; }
@@ -237,7 +255,7 @@ figcaption b { display: block; color: var(--cream); font-weight: 600; font-size:
   box-shadow: 0 14px 26px rgba(79, 15, 53, .26);
 }
 .apps li:hover .app-name, .apps li:active .app-name { color: var(--berry); }
-.tools-note { margin: 0; font-size: 25px; color: var(--berry); }
+.tools-note { margin: 0; font-size: 32px; line-height: 1; color: var(--berry); }
 
 /* ---------- how ---------- */
 /* who it's for sits on solid plum; how it works on solid berry */
@@ -249,10 +267,10 @@ figcaption b { display: block; color: var(--cream); font-weight: 600; font-size:
 }
 .how-head { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 12px 40px; }
 .how-head p { margin: 0; max-width: 30em; color: rgba(251, 243, 234, .85); }
-.how-note { margin: clamp(28px, 4vw, 44px) 0 0; font-size: 25px; line-height: 1.2; color: var(--pink); }
+.how-note { margin: clamp(28px, 4vw, 44px) 0 0; font-size: 32px; line-height: 1; color: var(--pink); }
 .steps li { border-top: 1.5px solid var(--cream); padding-top: 18px; }
-.num { display: block; font-size: 58px; line-height: .8; color: var(--pink); margin-bottom: 14px; }
-.steps h3 { font: 400 29px/1.1 var(--serif); }
+.num { display: block; font-size: 72px; line-height: .8; color: var(--pink); margin-bottom: 14px; }
+.steps h3 { font: var(--title-weight) calc(29px * var(--title-scale))/1.1 var(--title); }
 .steps p { margin: 10px 0 0; color: rgba(251, 243, 234, .82); max-width: 26em; }
 
 /* ---------- contact postcard ---------- */
@@ -274,8 +292,8 @@ figcaption b { display: block; color: var(--cream); font-weight: 600; font-size:
 .postcard::before { content: ""; grid-column: 2; grid-row: 1; background: rgba(42, 21, 32, .2); }
 .pc-message { grid-column: 1; grid-row: 1; }
 .pc-address { grid-column: 3; grid-row: 1; display: flex; flex-direction: column; align-items: flex-start; }
-.pc-hi { margin: 0; font-size: 28px; color: var(--berry); }
-.pc-message h2 { font-size: clamp(34px, 4vw, 52px); margin-top: 6px; }
+.pc-hi { margin: 0; font-size: 36px; line-height: 1; color: var(--berry); }
+.pc-message h2 { font-size: calc(clamp(34px, 4vw, 52px) * var(--title-scale)); margin-top: 6px; }
 .pc-message p { color: #3d2731; }
 .pc-sign { font-size: 30px; color: var(--berry); margin: 8px 0 0; }
 
@@ -290,7 +308,7 @@ figcaption b { display: block; color: var(--cream); font-weight: 600; font-size:
 }
 .stamp-slot.is-hot { background: rgba(246, 195, 220, .45); border-color: var(--berry); }
 .tray { display: flex; flex-direction: column; align-items: center; gap: 14px; }
-.tray-hint { margin: 0; font-size: 24px; line-height: 1.1; text-align: center; color: var(--pink); }
+.tray-hint { margin: 0; font-size: 30px; line-height: 1; text-align: center; color: var(--pink); }
 .tray-spots { display: flex; flex-direction: column; gap: 22px; }
 .spot { display: block; width: var(--stamp-w); aspect-ratio: 260 / 304; }
 
@@ -315,7 +333,7 @@ figcaption b { display: block; color: var(--cream); font-weight: 600; font-size:
 .lines dd {
   margin: 2px 0 0; padding-bottom: 8px;
   border-bottom: 1px solid rgba(42, 21, 32, .25);
-  font: 400 21px/1.3 var(--serif);
+  font: 500 18px/1.35 var(--sans);
 }
 .lines dd a { text-decoration: none; }
 .lines dd a:hover { color: var(--berry); text-decoration: underline; }
