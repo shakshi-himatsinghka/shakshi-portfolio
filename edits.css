@@ -91,6 +91,24 @@ h1 em, h2 em { font-style: italic; color: var(--pink); }
 
 .hero h1 { font-size: calc(clamp(44px, 5.6vw, 82px) * var(--title-scale)); }
 .lede { max-width: 32em; margin: 24px 0 0; color: rgba(251, 243, 234, .88); font-size: 18px; }
+/* "I'll shoot it too": the Kolkata shoots, picked out under the intro */
+.shoots {
+  display: inline-flex; align-items: center; gap: 14px;
+  margin-top: 26px; padding: 10px 20px 10px 10px;
+  border-radius: 16px; text-decoration: none; line-height: 1.35;
+  background: rgba(251, 243, 234, .12); border: 1px solid var(--rule);
+  transition: background .15s ease, border-color .15s ease;
+}
+.shoots:hover { background: rgba(251, 243, 234, .18); border-color: var(--pink); }
+.shoots-icon {
+  flex: none; display: grid; place-items: center;
+  width: 46px; height: 46px; border-radius: 12px;
+  background: var(--pink); color: var(--deep);
+}
+.shoots-text { font-size: 15px; color: rgba(251, 243, 234, .82); }
+.shoots-text b { display: block; font-size: 17px; font-weight: 600; color: var(--cream); }
+.shoots-arrow { flex: none; margin-left: 2px; font-size: 18px; color: var(--pink); transition: transform .15s ease; }
+.shoots:hover .shoots-arrow { transform: translateX(3px); }
 .ctas { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 30px; }
 .btn {
   display: inline-block; text-decoration: none;
@@ -176,6 +194,7 @@ figcaption b { display: block; color: var(--cream); font-weight: 600; font-size:
   background: var(--deep); color: var(--cream);
   border-radius: 16px; padding: clamp(26px, 3vw, 38px);
   transform: rotate(-1deg);
+  scroll-margin-top: 230px; /* the hero link lands with the reels beside it in view */
 }
 .shoot-kicker { margin: 0; font-size: 34px; line-height: 1; color: var(--pink); }
 .shoot h3 { font: var(--title-weight) calc(clamp(30px, 3vw, 40px) * var(--title-scale))/1.05 var(--title); margin-top: 4px; }
@@ -362,7 +381,7 @@ footer {
 @media (max-width: 1100px) {
   .cards { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .more-grid { grid-template-columns: repeat(2, minmax(0, 300px)); justify-content: center; }
-  .shoot { grid-column: 1 / -1; }
+  .shoot { grid-column: 1 / -1; scroll-margin-top: 96px; }
   .proof { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
   .proof > .hand { grid-column: 1 / -1; }
   .steps { grid-template-columns: repeat(2, minmax(0, 1fr)); }
@@ -401,4 +420,5 @@ footer {
   .btn { transition: none; }
   .dot { animation: none; }
   .app-icon { transition: none; }
+  .shoots, .shoots-arrow { transition: none; }
 }
