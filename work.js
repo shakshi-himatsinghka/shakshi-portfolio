@@ -1,33 +1,83 @@
-// the reel player: one <video> for the whole page, opened from any reel on it
+// the work page: highlights that show one kind of work at a time, and one shared player for every reel
+const KINDS = [
+  { id: 'shot', name: 'Shot by me', full: 'shot & edited by me' },
+  { id: 'brands', name: 'Brands', full: 'brands & stores' },
+  { id: 'food', name: 'Food', full: 'cafés & food' },
+  { id: 'creators', name: 'Creators', full: 'creators' },
+];
+const tiles = [...document.querySelectorAll('.tile')];
+
+// each reel's details come from its caption: the label in <b>, then what I did · the length
+const lines = tile => {
+  const cap = tile.querySelector('figcaption');
+  const role = [...cap.childNodes].filter(n => n.nodeType === Node.TEXT_NODE).map(n => n.textContent).join(' ').replace(/\s+/g, ' ').trim();
+  const post = cap.querySelector('a.post');
+  return { label: cap.querySelector('b').textContent.trim(), role, len: (role.match(/(\d+:\d\d)$/) || [])[1] || '', post: post && post.href };
+};
+
+// on each cover: its length, and a tag on reels I shot myself
+tiles.forEach(tile => {
+  const { label, role, len } = lines(tile);
+  const cover = tile.querySelector('.cover');
+  cover.setAttribute('aria-label', `Play ${label}, ${role}`);
+  if (len) cover.insertAdjacentHTML('beforeend', `<span class="len" aria-hidden="true">${len}</span>`);
+  if (/^shot & edited/i.test(role)) cover.insertAdjacentHTML('beforeend', '<span class="tag" aria-hidden="true">shot &amp; edited by me</span>');
+});
+
+// the counts in the profile
+const kinds = KINDS.filter(k => tiles.some(t => t.dataset.kind === k.id));
+const count = (key, n) => { const el = document.querySelector(`[data-count="${key}"]`); if (el) el.textContent = n; };
+count('reels', tiles.length);
+count('kinds', kinds.length);
+count('shot', tiles.filter(t => t.dataset.kind === 'shot').length);
+
+// highlights: "All", then one per kind that has reels, each with its first reel's poster
+const strip = document.querySelector('.highlights');
+const status = document.getElementById('filter-status');
+const poster = id => (tiles.find(t => !id || t.dataset.kind === id) || tiles[0]).querySelector('img').getAttribute('src');
+strip.innerHTML = [{ id: '', name: 'All' }, ...kinds].map(k =>
+  `<button type="button" class="hl"${k.id ? ` id="${k.id}"` : ''} data-kind="${k.id}" aria-pressed="false"><i><img src="${poster(k.id)}" alt=""></i>${k.name}</button>`).join('');
+const buttons = [...strip.querySelectorAll('.hl')];
+
+let shown = tiles;
+const show = (id, fromLink) => {
+  buttons.forEach(b => b.setAttribute('aria-pressed', b.dataset.kind === id));
+  tiles.forEach(t => { t.hidden = !!id && t.dataset.kind !== id; });
+  shown = tiles.filter(t => !t.hidden);
+  const kind = KINDS.find(k => k.id === id);
+  status.textContent = `Showing ${shown.length} reel${shown.length === 1 ? '' : 's'}${kind ? ': ' + kind.full : ''}`;
+  // keep the address in step, so a link copied now opens on the same kind
+  if (!fromLink) history.replaceState(null, '', id ? `#${id}` : location.pathname);
+};
+strip.addEventListener('click', e => { const b = e.target.closest('.hl'); if (b) show(b.dataset.kind); });
+
+// a link like /work/#creators opens with that kind picked
+const fromHash = () => { const id = location.hash.slice(1); return kinds.some(k => k.id === id) ? id : ''; };
+show(fromHash(), true);
+if (fromHash()) document.getElementById(fromHash()).scrollIntoView({ block: 'start' });
+addEventListener('hashchange', () => show(fromHash(), true));
+
+// ---------- the player: one <video> for the whole page ----------
 const player = document.getElementById('player');
 const video = player.querySelector('video');
 const title = document.getElementById('player-title');
-const role = player.querySelector('.player-role');
-const count = player.querySelector('.player-count');
-const reels = [...document.querySelectorAll('.tile .window')];
-let current = 0, opener = null;
+const roleText = player.querySelector('.player-role');
+const postLink = player.querySelector('.player-post');
+const position = player.querySelector('.player-count');
+let list = tiles, current = 0, opener = null;
 
-// each reel's two lines come from its caption: the label in <b>, then what I did and the length
-const lines = link => {
-  const cap = link.closest('.tile').querySelector('figcaption');
-  const text = [...cap.childNodes].filter(n => n.nodeType === Node.TEXT_NODE).map(n => n.textContent).join(' ');
-  return { label: cap.querySelector('b').textContent.trim(), role: text.replace(/\s+/g, ' ').trim() };
-};
-reels.forEach(link => {
-  const { label, role } = lines(link);
-  link.setAttribute('aria-label', `Play ${label}, ${role}`);
-});
-
-const show = i => {
-  current = (i + reels.length) % reels.length;
-  const link = reels[current], info = lines(link);
+const play = i => {
+  current = (i + list.length) % list.length;
+  const tile = list[current], info = lines(tile);
   video.pause();
-  video.poster = link.querySelector('img').src;
-  video.src = link.getAttribute('href');
+  video.poster = tile.querySelector('img').src;
+  video.src = tile.querySelector('.cover').getAttribute('href');
   video.setAttribute('aria-label', info.label);
   title.textContent = info.label;
-  role.textContent = info.role;
-  count.textContent = `${current + 1} of ${reels.length}`;
+  roleText.textContent = info.role;
+  postLink.hidden = !info.post;
+  if (info.post) postLink.href = info.post;
+  position.textContent = `${current + 1} of ${list.length}`;
   // started straight from a tap, so phones allow sound; if a browser still says no, the controls are there
   const playing = video.play();
   if (playing) playing.catch(() => {});
@@ -43,13 +93,14 @@ const clear = () => {
   if (opener) opener.focus();
 };
 
-const open = (i, from) => {
+const open = (tile, from) => {
+  list = shown; // next and previous stay within the kind being shown
   opener = from;
   if (player.showModal) player.showModal();
   else player.setAttribute('open', '');
   document.documentElement.classList.add('player-open');
   video.muted = false; // a fresh tap always starts with sound; next and previous keep whatever the viewer chose
-  show(i);
+  play(list.indexOf(tile));
   player.querySelector('.player-close').focus();
 };
 
@@ -61,8 +112,8 @@ const close = () => {
 
 player.addEventListener('close', clear);
 player.querySelector('.player-close').addEventListener('click', close);
-player.querySelector('.player-prev').addEventListener('click', () => show(current - 1));
-player.querySelector('.player-next').addEventListener('click', () => show(current + 1));
+player.querySelector('.player-prev').addEventListener('click', () => play(current - 1));
+player.querySelector('.player-next').addEventListener('click', () => play(current + 1));
 
 // a tap outside the video closes it
 player.addEventListener('click', e => {
@@ -72,12 +123,12 @@ player.addEventListener('click', e => {
 player.addEventListener('keydown', e => {
   if (e.key === 'Escape' && !player.close) { close(); return; }
   if (e.target === video) return; // the video's own controls use the arrow keys
-  if (e.key === 'ArrowRight') { show(current + 1); e.preventDefault(); }
-  if (e.key === 'ArrowLeft') { show(current - 1); e.preventDefault(); }
+  if (e.key === 'ArrowRight') { play(current + 1); e.preventDefault(); }
+  if (e.key === 'ArrowLeft') { play(current - 1); e.preventDefault(); }
 });
 
-reels.forEach((link, i) => link.addEventListener('click', e => {
+tiles.forEach(tile => tile.querySelector('.cover').addEventListener('click', e => {
   if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return; // let people open the file in a new tab
   e.preventDefault();
-  open(i, link);
+  open(tile, e.currentTarget);
 }));

@@ -1,48 +1,69 @@
-/* ---------- the work page: almost all reels ----------
-   Colours, fonts, the top bar, the app-window frames and the footer come from edits.css. */
+/* ---------- the work page: a profile, highlights and a tight grid of reels ----------
+   Colours, fonts, the top bar, buttons and the footer come from edits.css. */
 
 .top nav a[aria-current="page"] { color: var(--pink); }
+.sr-only { position: absolute; width: 1px; height: 1px; margin: -1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
 
-.work-head { padding: clamp(28px, 4vw, 56px) var(--pad) 8px; }
-.work-head h1 { font-size: calc(clamp(44px, 5.6vw, 82px) * var(--title-scale)); }
-.tap-note { margin: 8px 0 0; font-size: 32px; line-height: 1; color: var(--pink); }
-.jumps { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 24px; }
-.jumps a {
-  font-size: 14px; padding: 6px 14px; border-radius: 99px; text-decoration: none;
-  border: 1px solid var(--rule); color: var(--pink); background: rgba(79, 15, 53, .35);
+/* the profile at the top */
+.profile { max-width: 940px; margin: 0 auto; padding: clamp(24px, 4vw, 48px) var(--pad) 0; }
+.who { display: flex; align-items: center; gap: clamp(18px, 4vw, 56px); }
+.ring {
+  flex: none; width: clamp(84px, 16vw, 150px); aspect-ratio: 1; border-radius: 50%; padding: 4px;
+  background: conic-gradient(from 200deg, var(--pink), #e27bb0, var(--cream), var(--pink));
 }
-.jumps a:hover { background: var(--pink); border-color: var(--pink); color: var(--deep); }
+.ring span, .ring img {
+  display: grid; place-items: center; width: 100%; height: 100%; border-radius: 50%; object-fit: cover;
+  border: 4px solid var(--deep); background: var(--pink); color: var(--deep);
+  font: italic var(--title-weight) clamp(36px, 6vw, 62px)/1 var(--title);
+}
+.who h1 { font-size: calc(clamp(32px, 4vw, 46px) * var(--title-scale)); }
+.counts { display: flex; flex-wrap: wrap; gap: 4px 22px; margin: 10px 0 0; font-size: 15px; }
+.counts span { white-space: nowrap; }
+.counts b { font-weight: 700; }
+.bio { margin: 6px 0 0; color: rgba(251, 243, 234, .85); }
+.tap-note { margin: 18px 0 0; font-size: 30px; line-height: 1; color: var(--pink); }
 
-/* one section per kind of work; the margin keeps its heading clear of the sticky top bar */
-.shelf { padding: clamp(36px, 5vw, 64px) var(--pad) 0; scroll-margin-top: 70px; }
-.shelf h2 { font-size: calc(clamp(32px, 4vw, 52px) * var(--title-scale)); }
+/* highlights: one round button per kind of work */
+.highlights { display: flex; gap: clamp(14px, 3vw, 34px); margin-top: 24px; padding: 4px 2px 6px; overflow-x: auto; scrollbar-width: none; }
+.highlights::-webkit-scrollbar { display: none; }
+.hl {
+  flex: none; display: grid; justify-items: center; gap: 8px; padding: 0; border: 0; background: none; cursor: pointer;
+  color: var(--cream); font: 500 13px/1.2 var(--sans); scroll-margin-top: 100px;
+}
+.hl i { display: block; width: 74px; height: 74px; border-radius: 50%; padding: 3px; background: rgba(251, 243, 234, .3); transition: background .15s ease; }
+.hl:hover i { background: rgba(246, 195, 220, .7); }
+.hl[aria-pressed="true"] i { background: var(--pink); }
+.hl[aria-pressed="true"] { color: var(--pink); }
+.hl img { display: block; width: 100%; height: 100%; border-radius: 50%; object-fit: cover; border: 3px solid var(--deep); }
+.grid-tab {
+  margin: 22px 0 0; padding: 12px 0; border-top: 1px solid var(--rule); text-align: center;
+  font-size: 12px; letter-spacing: .12em; text-transform: uppercase; color: var(--cream);
+}
 
-/* the reels: still covers in app-window frames, and nothing plays until one is tapped */
-.tiles {
-  display: grid; grid-template-columns: repeat(4, minmax(0, 250px));
-  gap: clamp(24px, 3vw, 40px); margin-top: clamp(20px, 2.5vw, 32px);
+/* the grid: still covers, three across, and nothing plays until one is tapped */
+.grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 4px; max-width: 940px; margin: 0 auto; padding: 0 var(--pad); }
+.tile { position: relative; margin: 0; }
+.cover { position: relative; display: block; aspect-ratio: 9 / 16; overflow: hidden; background: #2b1d22; }
+.cover img { display: block; width: 100%; height: 100%; object-fit: cover; transition: transform .3s ease; }
+.cover:hover img, .cover:focus-visible img { transform: scale(1.04); }
+.cover:focus-visible { outline-offset: -3px; }
+.len { position: absolute; left: 8px; bottom: 8px; font: 600 13px/1 var(--sans); color: #fff; text-shadow: 0 1px 4px rgba(0, 0, 0, .7); pointer-events: none; }
+.len::before { content: "▶ "; font-size: 11px; }
+.tag { position: absolute; left: 8px; top: 8px; padding: 4px 9px; border-radius: 99px; font: 600 11px/1 var(--sans); background: var(--pink); color: var(--deep); pointer-events: none; }
+/* the caption sits under each cover without JavaScript; with it, it shows over the cover on hover */
+.tile figcaption { margin: 6px 0 12px; font-size: 12.5px; text-align: left; }
+.js .tile figcaption {
+  position: absolute; inset: auto 0 0 0; margin: 0; padding: 48px 12px 32px; pointer-events: none;
+  font: 600 13px/1.3 var(--sans); color: #fff; background: linear-gradient(transparent, rgba(20, 4, 14, .82));
+  opacity: 0; transition: opacity .2s ease;
 }
-.tile { margin: 0; }
-.tile .window { display: block; text-decoration: none; transition: transform .2s ease; }
-.tile:nth-child(odd) .window { transform: rotate(-1.2deg); }
-.tile:nth-child(even) .window { transform: rotate(1.2deg); }
-.tile .window:hover, .tile .window:focus-visible { transform: rotate(0deg) translateY(-4px); }
-.tile .screen { display: block; }
-.tile .screen img { display: block; width: 100%; height: 100%; object-fit: cover; }
-/* the round play mark on each cover */
-.tile .screen::before {
-  content: ""; position: absolute; left: 50%; top: 50%; width: 54px; height: 54px; margin: -27px 0 0 -27px;
-  border-radius: 50%; background: rgba(253, 248, 242, .9); box-shadow: 0 6px 18px rgba(30, 4, 20, .35);
-}
-.tile .screen::after {
-  content: ""; position: absolute; left: 50%; top: 50%; margin: -10px 0 0 -6px;
-  border-style: solid; border-width: 10px 0 10px 17px; border-color: transparent transparent transparent var(--deep);
-}
-.post { display: block; margin-top: 4px; color: var(--pink); }
+.js .tile figcaption b { color: #fff; font-size: 14px; }
+.js .tile:hover figcaption, .js .tile:focus-within figcaption { opacity: 1; }
+.tile .post { display: none; }
 
 .work-end {
   display: flex; flex-direction: column; align-items: center; gap: 14px; text-align: center;
-  padding: clamp(56px, 7vw, 96px) var(--pad) clamp(64px, 8vw, 110px);
+  padding: clamp(48px, 6vw, 80px) var(--pad) clamp(64px, 8vw, 110px);
 }
 .end-note { font-size: 30px; line-height: 1; color: var(--pink); text-decoration: none; }
 .end-note:hover { color: var(--cream); }
@@ -65,6 +86,8 @@ html.player-open { overflow: hidden; }
 .player-bar { display: flex; align-items: center; gap: 12px; width: 100%; }
 .player-label { flex: 1; min-width: 0; margin: 0; text-align: center; font-size: 13.5px; line-height: 1.4; color: var(--pink-soft); }
 .player-label b { display: block; font-size: 14.5px; font-weight: 600; color: var(--cream); }
+.player-post { display: block; color: var(--pink); }
+.player-post[hidden] { display: none; }
 .player-count { display: block; margin-top: 2px; font-size: 12px; opacity: .8; }
 .player-btn {
   flex: none; display: grid; place-items: center;
@@ -74,16 +97,16 @@ html.player-open { overflow: hidden; }
 .player-btn:hover { background: var(--pink); }
 .player-close { position: absolute; top: 14px; right: 14px; z-index: 1; }
 
-/* ---------- smaller screens ---------- */
-@media (max-width: 1100px) {
-  .tiles { grid-template-columns: repeat(3, minmax(0, 1fr)); }
-}
-@media (max-width: 700px) {
-  .tiles { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 26px 14px; }
-  .tile .screen::before { width: 44px; height: 44px; margin: -22px 0 0 -22px; }
-  .tile .screen::after { margin: -8px 0 0 -5px; border-width: 8px 0 8px 14px; }
+/* ---------- phones ---------- */
+@media (max-width: 600px) {
+  .who { align-items: flex-start; }
+  .counts { gap: 4px 14px; font-size: 14px; }
+  .hl i { width: 62px; height: 62px; }
+  .grid { gap: 2px; padding: 0; }
+  .tag { font-size: 10px; padding: 3px 7px; }
+  .len { font-size: 12px; left: 6px; bottom: 6px; }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .tile .window { transition: none; }
+  .cover img, .hl i, .js .tile figcaption { transition: none; }
 }

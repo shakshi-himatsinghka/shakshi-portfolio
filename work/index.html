@@ -23,6 +23,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Karla:ital,wght@0,400..700;1,400..700&family=Newsreader:ital,opsz,wght@0,6..72,400..600;1,6..72,400..600&family=Reenie+Beanie&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="../edits.css">
   <link rel="stylesheet" href="../work.css">
+  <script>document.documentElement.classList.add('js')</script>
 </head>
 <body>
 <div class="bg" aria-hidden="true"></div>
@@ -42,128 +43,91 @@
 
 <main>
 
-  <section class="work-head">
-    <h1>My <em>work</em></h1>
+  <!-- the profile: photo circle, counts, then round highlights that show one kind of work at a time -->
+  <section class="profile">
+    <div class="who">
+      <div class="ring">
+        <!-- PHOTO SPOT: when Shakshi sends her photo, save a square copy as assets/shakshi.jpg
+             (about 300 × 300) and swap the <span> below for:
+             <img src="../assets/shakshi.jpg" alt="Shakshi Himatsinghka"> -->
+        <span aria-hidden="true">S</span>
+      </div>
+      <div>
+        <h1>My <em>work</em></h1>
+        <p class="counts"><span><b data-count="reels">9</b> reels</span><span><b data-count="kinds">4</b> kinds</span><span><b data-count="shot">1</b> shot by me</span></p>
+        <p class="bio">iPhone videographer &amp; reel editor · Kolkata</p>
+      </div>
+    </div>
     <p class="hand tap-note">tap any reel to watch it with sound</p>
-    <nav class="jumps" aria-label="Jump to a section">
-      <a href="#shot">Shot &amp; edited by me</a>
-      <a href="#brands">Brands &amp; stores</a>
-      <a href="#food">Cafés &amp; food</a>
-      <a href="#creators">Creators</a>
-    </nav>
+    <!-- the highlights are made from the reels below, so they update by themselves -->
+    <div class="highlights" role="group" aria-label="Show one kind of work"></div>
+    <p class="grid-tab" aria-hidden="true">▦ Reels</p>
+    <p class="sr-only" id="filter-status" aria-live="polite"></p>
   </section>
 
   <!-- HOW TO ADD A REEL
        1. Make a web copy and a poster (the still people see before they tap), as AGENTS.md
           explains, and save both in edits/assets/, for example my-reel.mp4 and my-reel.jpg.
-       2. Copy one whole reel block, from <figure class="tile"> down to </figure>, and paste it
-          inside the grid of the section it belongs to. Reels show in the order they're written.
+       2. Copy one whole reel block below, from <figure class="tile" …> down to </figure>, and
+          paste it where you want it in the grid. Reels show in the order they're written.
        3. In your copy, change:
+          - data-kind="…"                  which highlight it belongs to: shot, brands, food or creators
           - href="../assets/my-reel.mp4"   the video
           - src="../assets/my-reel.jpg"    the poster
           - alt="…"                        what the reel is, in a few words
-          - the file name in the frame's top bar (it's only for looks)
-          - the two lines under it: the label in <b>…</b>, then what I did · the length
+          - the caption: the label in <b>…</b>, then what I did · the length
        4. Optional, for a client's reel: add the Instagram post as the last thing inside
           <figcaption>, like this:
           <a class="post" href="https://www.instagram.com/p/…" target="_blank" rel="noopener">see the original post ↗</a>
-       The player finds new reels by itself. If a section ends up with no reels, delete the
-       section and its jump link at the top. -->
+          It shows up in the player under that reel.
+       The counts, the highlights, the length on each cover, the "shot & edited by me" tag (for
+       captions that start with "shot & edited") and the player all update by themselves. -->
+  <div class="grid">
+    <figure class="tile" data-kind="shot">
+      <a class="cover" href="../assets/aksh.mp4"><img src="../assets/aksh.jpg" alt="Aksh store reel" width="540" height="960"></a>
+      <figcaption><b>Aksh · store reel</b> shot &amp; edited by me · 0:56</figcaption>
+    </figure>
 
-  <section class="shelf" id="shot" aria-labelledby="shot-title">
-    <h2 id="shot-title">Shot &amp; edited <em>by me</em></h2>
-    <div class="tiles">
-      <figure class="tile">
-        <a class="window wobble" href="../assets/aksh.mp4">
-          <span class="titlebar"><span class="lights" aria-hidden="true"><i></i><i></i><i></i></span><span class="fname">aksh_store_final.mov</span></span>
-          <span class="screen"><img src="../assets/aksh.jpg" alt="Aksh store reel" width="540" height="960" loading="lazy"></span>
-        </a>
-        <figcaption><b>Aksh · store reel</b> shot &amp; edited by me · 0:56</figcaption>
-      </figure>
-    </div>
-  </section>
+    <figure class="tile" data-kind="brands">
+      <a class="cover" href="../assets/vasundhara-rakhi.mp4"><img src="../assets/vasundhara-rakhi.jpg" alt="Rakhi picks reel for Vasundhara Fashion Jewelry" width="540" height="960"></a>
+      <figcaption><b>Rakhi picks · Vasundhara Fashion Jewelry</b> concept &amp; edit by me · 1:11</figcaption>
+    </figure>
 
-  <section class="shelf" id="brands" aria-labelledby="brands-title">
-    <h2 id="brands-title">Brands &amp; <em>stores</em></h2>
-    <!-- to add a reel here, copy a <figure class="tile"> block (see "HOW TO ADD A REEL" above) -->
-    <div class="tiles">
-      <figure class="tile">
-        <a class="window" href="../assets/vasundhara-rakhi.mp4">
-          <span class="titlebar"><span class="lights" aria-hidden="true"><i></i><i></i><i></i></span><span class="fname">rakhi_picks.mov</span></span>
-          <span class="screen"><img src="../assets/vasundhara-rakhi.jpg" alt="Rakhi picks reel for Vasundhara Fashion Jewelry" width="540" height="960" loading="lazy"></span>
-        </a>
-        <figcaption><b>Rakhi picks · Vasundhara Fashion Jewelry</b> concept &amp; edit by me · 1:11</figcaption>
-      </figure>
+    <figure class="tile" data-kind="brands">
+      <a class="cover" href="../assets/vasundhara-collection.mp4"><img src="../assets/vasundhara-collection.jpg" alt="New collection reel for Vasundhara Fashion Jewelry" width="540" height="960"></a>
+      <figcaption><b>New collection · Vasundhara Fashion Jewelry</b> edited by me · 0:24</figcaption>
+    </figure>
 
-      <figure class="tile">
-        <a class="window" href="../assets/vasundhara-collection.mp4">
-          <span class="titlebar"><span class="lights" aria-hidden="true"><i></i><i></i><i></i></span><span class="fname">new_collection.mov</span></span>
-          <span class="screen"><img src="../assets/vasundhara-collection.jpg" alt="New collection reel for Vasundhara Fashion Jewelry" width="540" height="960" loading="lazy"></span>
-        </a>
-        <figcaption><b>New collection · Vasundhara Fashion Jewelry</b> edited by me · 0:24</figcaption>
-      </figure>
-    </div>
-  </section>
+    <figure class="tile" data-kind="food">
+      <a class="cover" href="../assets/supper-club.mp4"><img src="../assets/supper-club.jpg" alt="Supper club review reel for Dipikka Poddaar" width="540" height="960" loading="lazy"></a>
+      <figcaption><b>Supper club review · for Dipikka Poddaar</b> edited by me · 2:10</figcaption>
+    </figure>
 
-  <section class="shelf" id="food" aria-labelledby="food-title">
-    <h2 id="food-title">Cafés &amp; <em>food</em></h2>
-    <!-- to add a reel here, copy a <figure class="tile"> block (see "HOW TO ADD A REEL" above) -->
-    <div class="tiles">
-      <figure class="tile">
-        <a class="window" href="../assets/supper-club.mp4">
-          <span class="titlebar"><span class="lights" aria-hidden="true"><i></i><i></i><i></i></span><span class="fname">supper_club_FINAL.mov</span></span>
-          <span class="screen"><img src="../assets/supper-club.jpg" alt="Supper club review reel for Dipikka Poddaar" width="540" height="960" loading="lazy"></span>
-        </a>
-        <figcaption><b>Supper club review · for Dipikka Poddaar</b> edited by me · 2:10</figcaption>
-      </figure>
+    <figure class="tile" data-kind="food">
+      <a class="cover" href="../assets/cafe.mp4"><img src="../assets/cafe.jpg" alt="Café review reel" width="540" height="960" loading="lazy"></a>
+      <figcaption><b>Café review</b> edited by me · 2:10</figcaption>
+    </figure>
 
-      <figure class="tile">
-        <a class="window" href="../assets/cafe.mp4">
-          <span class="titlebar"><span class="lights" aria-hidden="true"><i></i><i></i><i></i></span><span class="fname">cafe_review_v2.mov</span></span>
-          <span class="screen"><img src="../assets/cafe.jpg" alt="Café review reel" width="540" height="960" loading="lazy"></span>
-        </a>
-        <figcaption><b>Café review</b> edited by me · 2:10</figcaption>
-      </figure>
+    <figure class="tile" data-kind="food">
+      <a class="cover" href="../assets/dipikka-dinner.mp4"><img src="../assets/dipikka-dinner.jpg" alt="Dinner review reel for Dipikka Poddaar" width="540" height="960" loading="lazy"></a>
+      <figcaption><b>Dinner review · for Dipikka Poddaar</b> edited by me · 1:36</figcaption>
+    </figure>
 
-      <figure class="tile">
-        <a class="window" href="../assets/dipikka-dinner.mp4">
-          <span class="titlebar"><span class="lights" aria-hidden="true"><i></i><i></i><i></i></span><span class="fname">dinner_review.mov</span></span>
-          <span class="screen"><img src="../assets/dipikka-dinner.jpg" alt="Dinner review reel for Dipikka Poddaar" width="540" height="960" loading="lazy"></span>
-        </a>
-        <figcaption><b>Dinner review · for Dipikka Poddaar</b> edited by me · 1:36</figcaption>
-      </figure>
-    </div>
-  </section>
+    <figure class="tile" data-kind="creators">
+      <a class="cover" href="../assets/reel-2.mp4"><img src="../assets/reel-2.jpg" alt="Diwali gifting collab reel for Dipikka Poddaar" width="540" height="960" loading="lazy"></a>
+      <figcaption><b>Diwali gifting collab · for Dipikka Poddaar</b> edited by me · 0:44</figcaption>
+    </figure>
 
-  <section class="shelf" id="creators" aria-labelledby="creators-title">
-    <h2 id="creators-title"><em>Creators</em></h2>
-    <!-- to add a reel here, copy a <figure class="tile"> block (see "HOW TO ADD A REEL" above) -->
-    <div class="tiles">
-      <figure class="tile">
-        <a class="window" href="../assets/reel-2.mp4">
-          <span class="titlebar"><span class="lights" aria-hidden="true"><i></i><i></i><i></i></span><span class="fname">diwali_gifting_v3.mov</span></span>
-          <span class="screen"><img src="../assets/reel-2.jpg" alt="Diwali gifting collab reel for Dipikka Poddaar" width="540" height="960" loading="lazy"></span>
-        </a>
-        <figcaption><b>Diwali gifting collab · for Dipikka Poddaar</b> edited by me · 0:44</figcaption>
-      </figure>
+    <figure class="tile" data-kind="creators">
+      <a class="cover" href="../assets/dipikka-talk.mp4"><img src="../assets/dipikka-talk.jpg" alt="Talking head reel for Dipikka Poddaar" width="540" height="960" loading="lazy"></a>
+      <figcaption><b>Talking head reel · for Dipikka Poddaar</b> edited by me · 1:12</figcaption>
+    </figure>
 
-      <figure class="tile">
-        <a class="window" href="../assets/dipikka-talk.mp4">
-          <span class="titlebar"><span class="lights" aria-hidden="true"><i></i><i></i><i></i></span><span class="fname">talking_head.mov</span></span>
-          <span class="screen"><img src="../assets/dipikka-talk.jpg" alt="Talking head reel for Dipikka Poddaar" width="540" height="960" loading="lazy"></span>
-        </a>
-        <figcaption><b>Talking head reel · for Dipikka Poddaar</b> edited by me · 1:12</figcaption>
-      </figure>
-
-      <figure class="tile">
-        <a class="window" href="../assets/dipikka-wellness.mp4">
-          <span class="titlebar"><span class="lights" aria-hidden="true"><i></i><i></i><i></i></span><span class="fname">wellness_collab.mov</span></span>
-          <span class="screen"><img src="../assets/dipikka-wellness.jpg" alt="Wellness brand collaboration reel for Dipikka Poddaar" width="540" height="960" loading="lazy"></span>
-        </a>
-        <figcaption><b>Wellness brand collaboration · for Dipikka Poddaar</b> edited by me · 1:21</figcaption>
-      </figure>
-    </div>
-  </section>
+    <figure class="tile" data-kind="creators">
+      <a class="cover" href="../assets/dipikka-wellness.mp4"><img src="../assets/dipikka-wellness.jpg" alt="Wellness brand collaboration reel for Dipikka Poddaar" width="540" height="960" loading="lazy"></a>
+      <figcaption><b>Wellness brand collaboration · for Dipikka Poddaar</b> edited by me · 1:21</figcaption>
+    </figure>
+  </div>
 
   <section class="work-end">
     <a class="btn" href="../#contact">Tell me about your event</a>
@@ -184,7 +148,7 @@
     <video controls playsinline preload="none" aria-label="Reel"></video>
     <div class="player-bar">
       <button type="button" class="player-btn player-prev" aria-label="Previous reel">←</button>
-      <p class="player-label" aria-live="polite"><b id="player-title"></b><span class="player-role"></span><span class="player-count"></span></p>
+      <p class="player-label" aria-live="polite"><b id="player-title"></b><span class="player-role"></span><a class="player-post" href="#" target="_blank" rel="noopener" hidden>see the original post ↗</a><span class="player-count"></span></p>
       <button type="button" class="player-btn player-next" aria-label="Next reel">→</button>
     </div>
   </div>
