@@ -41,20 +41,6 @@ h1, h2 { line-height: 1.02; }
 h1 em, h2 em { font-style: italic; color: var(--pink); }
 .hand { font-family: var(--hand); }
 
-/* ---------- the site's two pages, as folder tabs ---------- */
-.doors { display: flex; gap: 4px; padding: 12px var(--pad) 0; }
-.doors a {
-  padding: 8px 18px; border-radius: 10px 10px 0 0;
-  font-size: 15px; font-weight: 500; line-height: 1.2; text-decoration: none;
-  background: rgba(251, 243, 234, .9); color: var(--deep);
-}
-.doors a:hover { background: var(--pink); }
-.doors a[aria-current="page"] {
-  background: rgba(79, 15, 53, .55); color: var(--cream);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-}
-
 /* ---------- top bar ---------- */
 .top {
   position: sticky; top: 0; z-index: 20;
@@ -91,25 +77,19 @@ h1 em, h2 em { font-style: italic; color: var(--pink); }
 
 .hero h1 { font-size: calc(clamp(44px, 5.6vw, 82px) * var(--title-scale)); }
 .lede { max-width: 32em; margin: 24px 0 0; color: rgba(251, 243, 234, .88); font-size: 18px; }
-/* "I'll shoot it too": the Kolkata shoots, picked out under the intro */
-.shoots {
-  display: inline-flex; align-items: center; gap: 14px;
-  margin-top: 26px; padding: 10px 20px 10px 10px;
-  border-radius: 16px; text-decoration: none; line-height: 1.35;
-  background: rgba(251, 243, 234, .12); border: 1px solid var(--rule);
-  transition: background .15s ease, border-color .15s ease;
-}
-.shoots:hover { background: rgba(251, 243, 234, .18); border-color: var(--pink); }
-.shoots-icon {
+/* the intro line, with a small circle beside it that Shakshi's photo will replace */
+.hello { display: flex; align-items: flex-start; gap: 16px; margin-top: 24px; }
+.hello .lede { margin-top: 0; }
+.me {
   flex: none; display: grid; place-items: center;
-  width: 46px; height: 46px; border-radius: 12px;
+  width: 64px; height: 64px; border-radius: 50%; object-fit: cover;
   background: var(--pink); color: var(--deep);
+  font: italic var(--title-weight) 34px/1 var(--title);
+  box-shadow: 0 0 0 3px rgba(251, 243, 234, .3);
 }
-.shoots-text { font-size: 15px; color: rgba(251, 243, 234, .82); }
-.shoots-text b { display: block; font-size: 17px; font-weight: 600; color: var(--cream); }
-.shoots-arrow { flex: none; margin-left: 2px; font-size: 18px; color: var(--pink); transition: transform .15s ease; }
-.shoots:hover .shoots-arrow { transform: translateX(3px); }
 .ctas { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 30px; }
+.hero-aside { align-self: center; margin-left: 6px; font-size: 30px; line-height: 1; color: var(--pink); text-decoration: none; }
+.hero-aside:hover { color: var(--cream); }
 .btn {
   display: inline-block; text-decoration: none;
   font-weight: 500; font-size: 15px;
@@ -158,17 +138,26 @@ figcaption b { display: block; color: var(--cream); font-weight: 600; font-size:
 .scrub::before { content: ""; position: absolute; left: 0; right: 0; top: 7px; height: 3px; border-radius: 3px; background: #ead9e1; }
 .scrub .fill { position: absolute; left: 0; top: 7px; height: 3px; width: 0; border-radius: 3px; background: var(--berry); }
 
-/* ---------- proof ---------- */
+/* ---------- the problem (under the hero) ---------- */
+.problem {
+  display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  align-items: center; gap: 20px clamp(32px, 5vw, 80px);
+  padding: clamp(48px, 6vw, 88px) var(--pad);
+  background: var(--deep);
+}
+.problem h2 { font-size: calc(clamp(34px, 4.4vw, 58px) * var(--title-scale)); }
+.problem p { margin: 0; max-width: 34em; color: rgba(251, 243, 234, .85); }
+
+/* ---------- numbers ---------- */
 .proof {
-  display: grid; grid-template-columns: minmax(0, .8fr) minmax(0, 1.4fr) minmax(0, 1fr);
-  align-items: center; gap: 20px clamp(24px, 4vw, 56px);
+  display: grid; grid-template-columns: repeat(2, minmax(0, max-content));
+  align-items: center; gap: 20px clamp(32px, 6vw, 96px);
   padding: 34px var(--pad);
   background: var(--deep);
 }
 .stat { display: flex; align-items: center; gap: 14px; }
-.stat p, .proof > p { margin: 0; }
+.stat p { margin: 0; }
 .proof .big { flex: none; font: italic var(--title-weight) calc(52px * var(--title-scale))/1 var(--title); color: var(--pink); }
-.proof .hand { font-size: 32px; line-height: 1; color: var(--pink-soft); }
 
 /* ---------- more edits (light) ---------- */
 .more {
@@ -190,15 +179,21 @@ figcaption b { display: block; color: var(--cream); font-weight: 600; font-size:
 .more-grid .reel:nth-child(2) .window { transform: rotate(1.5deg); }
 .more figcaption { color: var(--ink-soft); }
 .more figcaption b { color: var(--ink); }
-.shoot {
+/* the dark, slightly tilted card: the list beside the reels, and "Already shot it?" */
+.tilt-card {
   background: var(--deep); color: var(--cream);
   border-radius: 16px; padding: clamp(26px, 3vw, 38px);
   transform: rotate(-1deg);
-  scroll-margin-top: 230px; /* the hero link lands with the reels beside it in view */
 }
-.shoot-kicker { margin: 0; font-size: 34px; line-height: 1; color: var(--pink); }
-.shoot h3 { font: var(--title-weight) calc(clamp(30px, 3vw, 40px) * var(--title-scale))/1.05 var(--title); margin-top: 4px; }
-.shoot p:not(.shoot-kicker) { margin: 14px 0 22px; color: rgba(251, 243, 234, .85); }
+.tilt-card h3 { font: var(--title-weight) calc(clamp(30px, 3vw, 40px) * var(--title-scale))/1.05 var(--title); }
+.tilt-card p { margin: 14px 0 22px; color: rgba(251, 243, 234, .85); }
+#edit-only { scroll-margin-top: 96px; }
+.proofs ul { list-style: none; margin: 0; padding: 0; }
+.proofs li { display: grid; gap: 4px; padding: 16px 0; border-bottom: 1px solid var(--rule); }
+.proofs li:first-child { padding-top: 0; }
+.proofs b { font: var(--title-weight) calc(30px * var(--title-scale))/1.1 var(--title); }
+.proofs span { font-size: 15px; color: var(--pink-soft); }
+.proofs .proofs-note { margin: 18px 0 0; font-size: 30px; line-height: 1; color: var(--pink); }
 
 /* ---------- story ---------- */
 .story { padding: clamp(64px, 8vw, 120px) var(--pad); }
@@ -245,6 +240,23 @@ figcaption b { display: block; color: var(--cream); font-weight: 600; font-size:
 .card p { margin: 12px 0 0; font-size: 15.5px; color: rgba(251, 243, 234, .82); }
 .kinds { list-style: none; padding: 0; margin: 28px 0 0; display: flex; flex-wrap: wrap; gap: 8px; }
 .kinds li { font-size: 14px; padding: 6px 14px; border-radius: 99px; border: 1px solid var(--rule); color: var(--pink); }
+/* why iPhone · the bits · I blend in: the same cards, three across, with no heading above */
+.notes .cards { margin-top: 0; }
+.cards.trio { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.trio .card h3 { margin-top: 0; }
+
+/* ---------- what I shoot + edit only (cream) ---------- */
+.what {
+  display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);
+  align-items: center; gap: 40px clamp(32px, 5vw, 80px);
+  padding: clamp(64px, 8vw, 120px) var(--pad);
+  background: var(--cream); color: var(--ink);
+}
+.what h2 { font-size: calc(clamp(40px, 5.4vw, 72px) * var(--title-scale)); }
+.what h2 em { color: var(--berry); }
+.what-list { list-style: none; padding: 0; margin: clamp(24px, 3vw, 40px) 0 0; }
+.what-list li { padding: 16px 0; border-top: 1.5px solid rgba(42, 21, 32, .18); font-size: 18px; color: #3d2731; }
+.what-list b { font-weight: 700; color: var(--ink); }
 
 /* ---------- tools ---------- */
 .tools {
@@ -291,6 +303,15 @@ figcaption b { display: block; color: var(--cream); font-weight: 600; font-size:
 .num { display: block; font-size: 72px; line-height: .8; color: var(--pink); margin-bottom: 14px; }
 .steps h3 { font: var(--title-weight) calc(29px * var(--title-scale))/1.1 var(--title); }
 .steps p { margin: 10px 0 0; color: rgba(251, 243, 234, .82); max-width: 26em; }
+
+/* ---------- FAQ (light) ---------- */
+.faq { background: #f7dde8; color: var(--ink); padding: clamp(64px, 8vw, 120px) var(--pad); }
+.faq h2 { font-size: calc(clamp(40px, 5.4vw, 72px) * var(--title-scale)); }
+.faq h2 em { color: var(--berry); }
+.qa { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 clamp(28px, 4vw, 56px); margin: clamp(32px, 4vw, 52px) 0 0; }
+.qa div { padding: 18px 0 22px; border-top: 1.5px solid rgba(42, 21, 32, .18); }
+.qa dt { font: var(--title-weight) calc(25px * var(--title-scale))/1.2 var(--title); color: var(--ink); }
+.qa dd { margin: 8px 0 0; max-width: 34em; color: #3d2731; }
 
 /* ---------- contact postcard ---------- */
 .contact { padding: clamp(72px, 9vw, 130px) var(--pad); --stamp-w: 96px; }
@@ -381,15 +402,15 @@ footer {
 @media (max-width: 1100px) {
   .cards { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .more-grid { grid-template-columns: repeat(2, minmax(0, 300px)); justify-content: center; }
-  .shoot { grid-column: 1 / -1; scroll-margin-top: 96px; }
+  .more-grid .tilt-card { grid-column: 1 / -1; }
   .proof { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
-  .proof > .hand { grid-column: 1 / -1; }
   .steps { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }
 @media (max-width: 900px) {
   .top nav a:not(.pill) { display: none; }
   .hero { grid-template-columns: minmax(0, 1fr); }
   .reels { max-width: 560px; margin: 0 auto; width: 100%; }
+  .problem, .what, .qa, .cards.trio { grid-template-columns: minmax(0, 1fr); }
   .postcard { grid-template-columns: minmax(0, 1fr); }
   .postcard::before { display: none; }
   .pc-address { grid-column: 1; grid-row: 2; border-top: 1px dashed rgba(42, 21, 32, .3); padding-top: 22px; }
@@ -403,6 +424,7 @@ footer {
   body { font-size: 16px; }
   .mark { font-size: 20px; }
   .lede { font-size: 16.5px; }
+  .me { width: 52px; height: 52px; font-size: 28px; }
   .reels { padding: 12px 6px; gap: 14px; }
   .r2 { margin-top: 40px; }
   .titlebar { height: 26px; font-size: 10.5px; }
@@ -420,5 +442,4 @@ footer {
   .btn { transition: none; }
   .dot { animation: none; }
   .app-icon { transition: none; }
-  .shoots, .shoots-arrow { transition: none; }
 }
