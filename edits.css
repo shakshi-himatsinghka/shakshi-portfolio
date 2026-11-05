@@ -179,6 +179,8 @@ figcaption b { display: block; color: var(--cream); font-weight: 600; font-size:
 .more-grid .reel:nth-child(2) .window { transform: rotate(1.5deg); }
 .more figcaption { color: var(--ink-soft); }
 .more figcaption b { color: var(--ink); }
+.see-all { margin-top: clamp(28px, 4vw, 48px); background: var(--berry); border-color: var(--berry); color: var(--paper); }
+.see-all:hover { background: var(--deep); border-color: var(--deep); }
 /* the dark, slightly tilted card: the list beside the reels, and "Already shot it?" */
 .tilt-card {
   background: var(--deep); color: var(--cream);
@@ -399,6 +401,18 @@ footer {
 .paper :focus-visible, .postcard :focus-visible, .window :focus-visible { outline-color: var(--berry); }
 
 /* ---------- responsive ---------- */
+/* home page on laptop screens: the two hero reels shrink to the screen's height,
+   so the intro, the button and both reels all fit in the first view */
+@media (min-width: 901px) {
+  .hero#work { align-items: start; padding-top: clamp(28px, 3.5vw, 56px); padding-bottom: clamp(40px, 4vw, 64px); }
+  .hero#work .reels {
+    width: 100%; justify-self: center; padding: 12px;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    max-width: max(380px, calc((100vh - 371px) * 1.125 + 88px));
+    max-width: max(380px, calc((100svh - 371px) * 1.125 + 88px));
+  }
+  .hero#work .r2 { margin-top: 40px; }
+}
 @media (max-width: 1100px) {
   .cards { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .more-grid { grid-template-columns: repeat(2, minmax(0, 300px)); justify-content: center; }

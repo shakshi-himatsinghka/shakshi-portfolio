@@ -1,0 +1,89 @@
+/* ---------- the work page: almost all reels ----------
+   Colours, fonts, the top bar, the app-window frames and the footer come from edits.css. */
+
+.top nav a[aria-current="page"] { color: var(--pink); }
+
+.work-head { padding: clamp(28px, 4vw, 56px) var(--pad) 8px; }
+.work-head h1 { font-size: calc(clamp(44px, 5.6vw, 82px) * var(--title-scale)); }
+.tap-note { margin: 8px 0 0; font-size: 32px; line-height: 1; color: var(--pink); }
+.jumps { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 24px; }
+.jumps a {
+  font-size: 14px; padding: 6px 14px; border-radius: 99px; text-decoration: none;
+  border: 1px solid var(--rule); color: var(--pink); background: rgba(79, 15, 53, .35);
+}
+.jumps a:hover { background: var(--pink); border-color: var(--pink); color: var(--deep); }
+
+/* one section per kind of work; the margin keeps its heading clear of the sticky top bar */
+.shelf { padding: clamp(36px, 5vw, 64px) var(--pad) 0; scroll-margin-top: 70px; }
+.shelf h2 { font-size: calc(clamp(32px, 4vw, 52px) * var(--title-scale)); }
+
+/* the reels: still covers in app-window frames, and nothing plays until one is tapped */
+.tiles {
+  display: grid; grid-template-columns: repeat(4, minmax(0, 250px));
+  gap: clamp(24px, 3vw, 40px); margin-top: clamp(20px, 2.5vw, 32px);
+}
+.tile { margin: 0; }
+.tile .window { display: block; text-decoration: none; transition: transform .2s ease; }
+.tile:nth-child(odd) .window { transform: rotate(-1.2deg); }
+.tile:nth-child(even) .window { transform: rotate(1.2deg); }
+.tile .window:hover, .tile .window:focus-visible { transform: rotate(0deg) translateY(-4px); }
+.tile .screen { display: block; }
+.tile .screen img { display: block; width: 100%; height: 100%; object-fit: cover; }
+/* the round play mark on each cover */
+.tile .screen::before {
+  content: ""; position: absolute; left: 50%; top: 50%; width: 54px; height: 54px; margin: -27px 0 0 -27px;
+  border-radius: 50%; background: rgba(253, 248, 242, .9); box-shadow: 0 6px 18px rgba(30, 4, 20, .35);
+}
+.tile .screen::after {
+  content: ""; position: absolute; left: 50%; top: 50%; margin: -10px 0 0 -6px;
+  border-style: solid; border-width: 10px 0 10px 17px; border-color: transparent transparent transparent var(--deep);
+}
+.post { display: block; margin-top: 4px; color: var(--pink); }
+
+.work-end {
+  display: flex; flex-direction: column; align-items: center; gap: 14px; text-align: center;
+  padding: clamp(56px, 7vw, 96px) var(--pad) clamp(64px, 8vw, 110px);
+}
+.end-note { font-size: 30px; line-height: 1; color: var(--pink); text-decoration: none; }
+.end-note:hover { color: var(--cream); }
+
+/* ---------- the player: one video for the whole page ---------- */
+html.player-open { overflow: hidden; }
+.player {
+  width: 100%; height: 100%; max-width: none; max-height: none;
+  margin: 0; padding: 0; border: 0;
+  background: transparent; color: var(--cream);
+}
+.player::backdrop { background: rgba(30, 4, 20, .92); }
+.player[open] { display: flex; align-items: center; justify-content: center; background: rgba(30, 4, 20, .92); }
+.player-box {
+  display: flex; flex-direction: column; align-items: center; gap: 12px;
+  width: min(calc((100vh - 150px) * 9 / 16), 92vw);
+  width: min(calc((100dvh - 150px) * 9 / 16), 92vw);
+}
+.player video { display: block; width: 100%; aspect-ratio: 9 / 16; background: #000; border-radius: 10px; }
+.player-bar { display: flex; align-items: center; gap: 12px; width: 100%; }
+.player-label { flex: 1; min-width: 0; margin: 0; text-align: center; font-size: 13.5px; line-height: 1.4; color: var(--pink-soft); }
+.player-label b { display: block; font-size: 14.5px; font-weight: 600; color: var(--cream); }
+.player-count { display: block; margin-top: 2px; font-size: 12px; opacity: .8; }
+.player-btn {
+  flex: none; display: grid; place-items: center;
+  width: 44px; height: 44px; border-radius: 50%; border: 0; cursor: pointer;
+  background: var(--cream); color: var(--deep); font: 600 20px/1 var(--sans);
+}
+.player-btn:hover { background: var(--pink); }
+.player-close { position: absolute; top: 14px; right: 14px; z-index: 1; }
+
+/* ---------- smaller screens ---------- */
+@media (max-width: 1100px) {
+  .tiles { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+}
+@media (max-width: 700px) {
+  .tiles { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 26px 14px; }
+  .tile .screen::before { width: 44px; height: 44px; margin: -22px 0 0 -22px; }
+  .tile .screen::after { margin: -8px 0 0 -5px; border-width: 8px 0 8px 14px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tile .window { transition: none; }
+}
